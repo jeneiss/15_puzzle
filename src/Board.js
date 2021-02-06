@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Board.css';
 
 function Board({ initialConfiguration, onSolveCallback }) {
@@ -8,7 +8,6 @@ function Board({ initialConfiguration, onSolveCallback }) {
     const num = e.target.innerText === '' ? 0 : parseInt(e.target.innerText)
     const numIndex = tileConfig.findIndex(el => el === num)
 
-    //Have index, need to check if indexes around in tileConfig contain 0.
     const newTileConfig = [...tileConfig]
     if (tileConfig[numIndex + 1] === 0) {
       newTileConfig[numIndex + 1] = num
@@ -26,6 +25,19 @@ function Board({ initialConfiguration, onSolveCallback }) {
 
     setTileConfig(newTileConfig)
   }
+
+  useEffect(() => {
+    let solution = tileConfig.slice().sort((a, b) => a - b)
+    solution.push(solution.shift())
+
+    for (let i = 0; i < tileConfig.length; i++) {
+      if (solution[i] !== tileConfig[i]) return
+    }
+
+    onSolveCallback()
+
+  }, [tileConfig])
+
 
   return (
     <div className='board'>
