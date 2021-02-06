@@ -1,0 +1,23 @@
+.board {
+  width: 40rem;
+  margin: 3rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.tile,
+.empty {
+  width: 23%;
+  margin: 1%;
+  height: 10rem;
+  border-radius: 10px;
+}
+
+.tile {
+  background-color: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
