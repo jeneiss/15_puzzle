@@ -6,24 +6,30 @@ function Board({ initialConfiguration, onSolveCallback }) {
 
   const handleClick = (e) => {
     const num = e.target.innerText === '' ? 0 : parseInt(e.target.innerText)
-    const numIndex = tileConfig.findIndex(el => el === num)
+    const grid = []
 
-    const newTileConfig = [...tileConfig]
-    if (tileConfig[numIndex + 1] === 0) {
-      newTileConfig[numIndex + 1] = num
-      newTileConfig[numIndex] = 0
-    } else if (tileConfig[numIndex - 1] === 0) {
-      newTileConfig[numIndex - 1] = num
-      newTileConfig[numIndex] = 0
-    } else if (tileConfig[numIndex + 4] === 0) {
-      newTileConfig[numIndex + 4] = num
-      newTileConfig[numIndex] = 0
-    } else if (tileConfig[numIndex - 4] === 0) {
-      newTileConfig[numIndex - 4] = num
-      newTileConfig[numIndex] = 0
+    for (let i = 0; i < tileConfig.length; i = i + 4) {
+      grid.push(tileConfig.slice(i, i + 4))
     }
 
-    setTileConfig(newTileConfig)
+    const row = grid.findIndex(el => el.includes(num))
+    const col = grid[row].findIndex(el => el === num)
+
+    if (row - 1 >= 0 && grid[row - 1][col] === 0) {
+        grid[row - 1][col] = grid[row][col]
+        grid[row][col] = 0
+    } else if (row + 1 <= 3 && grid[row + 1][col] === 0) {
+        grid[row + 1][col] = grid[row][col]
+        grid[row][col] = 0
+    } else if (col + 1 <= 3 && grid[row][col + 1] === 0) {
+        grid[row][col + 1] = grid[row][col]
+        grid[row][col] = 0
+    } else if (col - 1 >= 0 && grid[row][col - 1] === 0) {
+        grid[row][col - 1] = grid[row][col]
+        grid[row][col] = 0
+    }
+
+    setTileConfig(grid.flat())
   }
 
   useEffect(() => {
