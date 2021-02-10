@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './Board.css';
 
-function Board({ initialConfiguration, onSolveCallback }) {
-  const [tileConfig, setTileConfig] = useState(initialConfiguration)
+function Board({ initialConfig, onSolve }) {
+  const [tileConfig, setTileConfig] = useState(initialConfig)
 
   const handleClick = (e) => {
     const num = e.target.innerText === '' ? 0 : parseInt(e.target.innerText)
@@ -40,7 +40,7 @@ function Board({ initialConfiguration, onSolveCallback }) {
       if (solution[i] !== tileConfig[i]) return
     }
 
-    onSolveCallback()
+    onSolve()
 
   }, [tileConfig])
 
